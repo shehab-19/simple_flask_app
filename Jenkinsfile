@@ -5,7 +5,10 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def customImage = docker.build("flaskapp:0.0.1")
+                        docker.withRegistry('https://dockerhub.io/v1/', 'dockerhub_credentials') {
+                        def customImage = docker.build("flaskapp:0.0.1")
+                        customImage.push()
+                     }
                 }
             }
         }
