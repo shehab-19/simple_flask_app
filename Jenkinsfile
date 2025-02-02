@@ -31,8 +31,8 @@ pipeline {
             steps {
                 input message: 'Approve Deployment?', ok: 'Deploy'
                 script {
-                    // Run Flask App container (port 5555 on host, 5000 inside container)
-                    docker.run('shehab19/flask-app:v1', '-p 5555:5000 --name flaskapp')
+                    // Use the Docker block to run the container securely
+                    docker.image('shehab19/flask-app:v1').run('-p 5555:5000 --name flaskapp')
                 }
             }
         }
