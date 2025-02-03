@@ -6,9 +6,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                        def customImage = docker.build("shehab19/flask-app:v1")
-                        customImage.push()
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {   // Use the Docker Hub credentials
+                        def customImage = docker.build("shehab19/flask-app:v1")        // Build the Docker image
+                        customImage.push()                                            // Push the Docker image to Docker Hub
                     }
                 }
             }
@@ -29,7 +29,7 @@ pipeline {
         // Deploy Stage with Input
         stage('Deploy') {
             steps {
-                input message: 'Approve Deployment?', ok: 'Deploy'
+                input message: 'Approve Deployment?', ok: 'Deploy'      // Input to approve the deployment
                 script {
                     // Use the Docker block to run the container securely
                     docker.image('shehab19/flask-app:v1').run('-p 5555:5000 --name flaskapp')
